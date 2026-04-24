@@ -10,6 +10,219 @@ import {
 } from "recharts";
 import "./index.css";
 
+// Readable JSON Data Configuration
+const DASHBOARD_DATA = {
+  system: {
+    unitId: "Unit 04",
+    furnaceName: "SQF1A",
+    operatorId: "1000124876",
+    operatorName: "OP-742",
+    chargeId: "RSQF001",
+    workOrdersCount: 5,
+    currentStage: "FURNACE",
+    healthStatus: "GREEN",
+    healthLabel: "In Control",
+    timeRemaining: "01:42:15",
+    totalTime: "05:00",
+  },
+  navigation: [
+    { id: "overview", icon: "dashboard", label: "Overview", active: true },
+    { id: "process", icon: "precision_manufacturing", label: "Process" },
+    { id: "charges", icon: "inventory_2", label: "Charges" },
+    { id: "analytics", icon: "monitoring", label: "Analytics" },
+    { id: "logs", icon: "receipt_long", label: "Logs" },
+  ],
+  secondaryNavigation: [
+    { id: "support", icon: "support_agent", label: "Support" },
+    { id: "diagnostics", icon: "terminal", label: "Diagnostics" },
+  ],
+  furnaceZones: [
+    { id: 1, pv: 920, sp: 920, error: false },
+    { id: 2, pv: 921, sp: 920, error: false },
+    { id: 3, pv: 919, sp: 920, error: false },
+    { id: 4, pv: 935, sp: 920, error: true },
+  ],
+  flowPanels: [
+    {
+      label: "Carbon Potential",
+      value: "0.85",
+      unit: "%",
+      progress: "85%",
+      color: "secondary",
+    },
+    {
+      label: "Ammonia Flow",
+      value: "14.2",
+      unit: " L/m",
+      progress: "60%",
+      color: "tertiary",
+    },
+  ],
+  telemetry: {
+    temperature: { label: "Temperature", sp: 920, unit: "°C", threshold: 5 },
+    cp: { label: "Carbon Potential", sp: 0.85, unit: "%", threshold: 0.05 },
+    oil: { label: "Quench Oil Temperature", sp: 65, unit: "°C", threshold: 2 },
+  },
+  quenchStatus: [
+    {
+      id: "oil-temp",
+      label: "Oil Temp",
+      value: "72°C",
+      icon: "thermostat",
+      color: "blue",
+    },
+    {
+      id: "agitation",
+      label: "Agitation",
+      value: "ON",
+      icon: "cyclone",
+      color: "green",
+      isState: true,
+    },
+    {
+      id: "oil-level",
+      label: "Oil Level",
+      value: "OK",
+      icon: "water_drop",
+      color: "green",
+      isState: true,
+    },
+    {
+      id: "transfer-time",
+      label: "Transfer Time",
+      value: "8 sec",
+      icon: "timer",
+      color: "slate",
+    },
+  ],
+  deviations: {
+    count: 2,
+    active: [
+      {
+        id: 1,
+        title: "Temperature High – Zone 4",
+        pv: "935°C",
+        sp: "920°C",
+        dev: "+15°C",
+        severity: "HIGH",
+        duration: "00:02:45",
+        trend: [{ v: 0 }, { v: 5 }, { v: 10 }, { v: 12 }, { v: 15 }],
+        color: "red",
+      },
+      {
+        id: 2,
+        title: "Carbon Potential Ripple",
+        pv: "0.88%",
+        sp: "0.85%",
+        dev: "+0.03%",
+        severity: "MEDIUM",
+        duration: "00:00:45",
+        trend: [{ v: 0 }, { v: 1 }, { v: 0 }, { v: 2 }, { v: 3 }],
+        color: "yellow",
+      },
+    ],
+  },
+  prediction: {
+    status: "RED",
+    time: "06 minutes",
+    confidence: 78,
+    reason: "Temperature trending high in Zone 2 and Carbon Potential low",
+  },
+  recommendations: [
+    { id: 1, text: "Reduce furnace setpoint by 10°C" },
+    { id: 2, text: "Check ammonia flow control valve" },
+    { id: 3, text: "Verify gas carburizing flow" },
+  ],
+  timeline: {
+    stages: [
+      {
+        id: "prewash",
+        label: "Prewash",
+        icon: "check_circle",
+        progress: "00:20 / 00:20",
+        status: "completed",
+      },
+      {
+        id: "furnace",
+        label: "Furnace",
+        icon: "local_fire_department",
+        progress: "02:57 / 03:30",
+        status: "active",
+      },
+      {
+        id: "quench",
+        label: "Quench",
+        icon: "ac_unit",
+        progress: "00:00 / 00:30",
+        status: "pending",
+      },
+      {
+        id: "temper",
+        label: "Temper",
+        icon: "waves",
+        progress: "00:00 / 01:00",
+        status: "pending",
+      },
+    ],
+    cycleTime: "03:17",
+    targetCycleTime: "05:20",
+    scale: ["16:00", "17:00", "18:00", "19:00", "20:00", "21:00"],
+    segments: [
+      { left: "0%", width: "40%", color: "green", glow: "34,197,94" },
+      { left: "40%", width: "15%", color: "yellow", glow: "250,204,21" },
+      { left: "55%", width: "5%", color: "red", glow: "239,68,68" },
+    ],
+    markers: [
+      { left: "10%", color: "green" },
+      { left: "25%", color: "green" },
+      { left: "37%", color: "green" },
+      { left: "46.6%", color: "yellow", large: true },
+      { left: "58.3%", color: "red", large: true, pulse: true },
+    ],
+    headPos: "60%",
+    legend: [
+      { color: "green", label: "Within Limit" },
+      { color: "yellow", label: "Warning" },
+      { color: "red", label: "Violation", pulse: true },
+    ],
+  },
+  kpis: [
+    {
+      id: "util",
+      label: "Utilization",
+      unit: "%",
+      icon: "speed",
+      color: "primary",
+      dynamic: true,
+    },
+    {
+      id: "quality",
+      label: "Quality Score",
+      value: "99.8",
+      unit: "%",
+      icon: "verified",
+      color: "secondary",
+    },
+    {
+      id: "energy",
+      label: "Energy",
+      unit: " kW",
+      icon: "bolt",
+      color: "tertiary",
+      dynamic: true,
+      showTrend: true,
+    },
+    {
+      id: "alarms",
+      label: "Alarms",
+      value: "0",
+      unit: " Shift",
+      icon: "gpp_bad",
+      color: "error",
+    },
+  ],
+};
+
 // Helper to generate a single new data point
 const generateNewPoint = (index) => {
   const now = new Date();
@@ -24,11 +237,11 @@ const generateNewPoint = (index) => {
   return {
     time: timeStr,
     tempPV: parseFloat(tempPV.toFixed(1)),
-    tempSP: 920,
+    tempSP: DASHBOARD_DATA.telemetry.temperature.sp,
     cpPV: parseFloat(cpPV.toFixed(3)),
-    cpSP: 0.85,
+    cpSP: DASHBOARD_DATA.telemetry.cp.sp,
     oilPV: parseFloat(oilPV.toFixed(1)),
-    oilSP: 65,
+    oilSP: DASHBOARD_DATA.telemetry.oil.sp,
   };
 };
 
@@ -106,12 +319,12 @@ export default function App() {
               <div
                 className={`font-headline-md text-headline-md ${darkMode ? "text-on-surface" : "text-slate-900"} font-bold`}
               >
-                Unit 04
+                {DASHBOARD_DATA.system.unitId}
               </div>
               <div
                 className={`font-label-sm text-label-sm ${darkMode ? "text-on-surface-variant" : "text-slate-500"} font-bold`}
               >
-                Active | 1450°C
+                {DASHBOARD_DATA.system.status} | 1450°C
               </div>
             </div>
           )}
@@ -121,22 +334,7 @@ export default function App() {
         <div
           className={`flex-1 ${isSidebarCollapsed ? "px-2" : "px-2"} space-y-1 overflow-hidden`}
         >
-          {[
-            {
-              id: "overview",
-              icon: "dashboard",
-              label: "Overview",
-              active: true,
-            },
-            {
-              id: "process",
-              icon: "precision_manufacturing",
-              label: "Process",
-            },
-            { id: "charges", icon: "inventory_2", label: "Charges" },
-            { id: "analytics", icon: "monitoring", label: "Analytics" },
-            { id: "logs", icon: "receipt_long", label: "Logs" },
-          ].map((item) => (
+          {DASHBOARD_DATA.navigation.map((item) => (
             <a
               key={item.id}
               className={`flex items-center group relative transition-all duration-200 rounded-lg ${isSidebarCollapsed ? "justify-center py-3" : "gap-3 px-4 py-2.5"} 
@@ -179,10 +377,7 @@ export default function App() {
           <div
             className={`h-px ${darkMode ? "bg-surface-highest" : "bg-slate-100"} my-2`}
           ></div>
-          {[
-            { id: "support", icon: "support_agent", label: "Support" },
-            { id: "diagnostics", icon: "terminal", label: "Diagnostics" },
-          ].map((item) => (
+          {DASHBOARD_DATA.secondaryNavigation.map((item) => (
             <a
               key={item.id}
               className={`flex items-center group relative transition-all duration-200 rounded-lg ${isSidebarCollapsed ? "justify-center py-3" : "gap-3 px-4 py-2.5"} 
@@ -255,7 +450,7 @@ export default function App() {
                 Authenticated System Access
               </span>
               <span className="text-[11px] font-bold tracking-wider">
-                OPERATOR ID: 1000124876
+                OPERATOR ID: {DASHBOARD_DATA.system.operatorId}
               </span>
             </div>
 
@@ -308,7 +503,7 @@ export default function App() {
               <h1
                 className={`font-data-display text-2xl font-black ${darkMode ? "text-slate-100" : "text-slate-900"} leading-none mb-0.5`}
               >
-                SQF1A
+                {DASHBOARD_DATA.system.furnaceName}
               </h1>
               <span
                 className={`text-[9px] ${darkMode ? "text-blue-400" : "text-blue-600"} font-bold uppercase tracking-[0.15em]`}
@@ -332,7 +527,7 @@ export default function App() {
                 <span
                   className={`font-mono text-[12px] ${darkMode ? "text-slate-200" : "text-slate-700"}`}
                 >
-                  RSQF001
+                  {DASHBOARD_DATA.system.chargeId}
                 </span>
               </div>
               <div
@@ -346,7 +541,7 @@ export default function App() {
                 <span
                   className={`font-mono text-[12px] ${darkMode ? "text-slate-200" : "text-slate-700"}`}
                 >
-                  5
+                  {DASHBOARD_DATA.system.workOrdersCount}
                 </span>
               </div>
               <div
@@ -363,7 +558,7 @@ export default function App() {
                 <span
                   className={`font-mono text-[12px] ${darkMode ? "text-blue-300" : "text-blue-700"} font-bold pl-1`}
                 >
-                  FURNACE
+                  {DASHBOARD_DATA.system.currentStage}
                 </span>
               </div>
             </div>
@@ -391,12 +586,12 @@ export default function App() {
                 <span
                   className={`font-data-display text-lg font-black ${darkMode ? "text-green-400" : "text-green-600"} leading-none`}
                 >
-                  GREEN
+                  {DASHBOARD_DATA.system.healthStatus}
                 </span>
                 <span
                   className={`text-[10px] ${darkMode ? "text-green-200/80" : "text-green-800"} font-medium`}
                 >
-                  In Control
+                  {DASHBOARD_DATA.system.healthLabel}
                 </span>
               </div>
             </div>
@@ -414,8 +609,8 @@ export default function App() {
                 <span
                   className={`font-mono text-[12px] ${darkMode ? "text-on-surface" : "text-slate-700"} font-bold`}
                 >
-                  01:42:15{" "}
-                  <span className="text-[9px] opacity-60">/ 05:00</span>
+                  {DASHBOARD_DATA.system.timeRemaining}{" "}
+                  <span className="text-[9px] opacity-60">/ {DASHBOARD_DATA.system.totalTime}</span>
                 </span>
               </div>
               <div
@@ -429,7 +624,7 @@ export default function App() {
                 <span
                   className={`font-mono text-[12px] ${darkMode ? "text-on-surface" : "text-slate-600"} font-bold`}
                 >
-                  OP-742
+                  {DASHBOARD_DATA.system.operatorName}
                 </span>
               </div>
             </div>
@@ -1059,18 +1254,13 @@ export default function App() {
 
                   {/* ZONE DATA ROW BELOW FURNACE */}
                   <div className="w-full mt-20 flex justify-between bg-surface-container-lowest border border-outline-variant rounded-lg p-4 shadow-sm relative z-20">
-                    {[
-                      { z: 1, pv: 920, sp: 920, error: false },
-                      { z: 2, pv: 921, sp: 920, error: false },
-                      { z: 3, pv: 919, sp: 920, error: false },
-                      { z: 4, pv: 935, sp: 920, error: true },
-                    ].map((data, idx) => (
+                    {DASHBOARD_DATA.furnaceZones.map((data, idx) => (
                       <div
-                        key={data.z}
+                        key={data.id}
                         className={`flex-1 flex flex-col items-center justify-center ${idx !== 0 ? "border-l border-outline-variant/30" : ""}`}
                       >
                         <div className="text-[9px] text-on-surface-variant font-bold mb-0.5 uppercase tracking-wider">
-                          Z{data.z}
+                          Z{data.id}
                         </div>
                         <div
                           className={`text-base font-data-display font-bold leading-tight ${data.error ? "text-error animate-pulse" : "text-on-surface"}`}
@@ -1087,32 +1277,21 @@ export default function App() {
               </div>
               {/* Flow Panels Grid */}
               <div className="grid grid-cols-2 gap-gutter">
-                <div className="bg-surface-container rounded-xl p-card-padding border border-surface-variant">
-                  <h3 className="font-label-sm text-label-sm text-on-surface-variant uppercase mb-2">
-                    Carbon Potential
-                  </h3>
-                  <div className="flex items-baseline gap-2">
-                    <span className="font-data-display text-data-display text-secondary">
-                      0.85<span className="text-lg">%</span>
-                    </span>
+                {DASHBOARD_DATA.flowPanels.map((panel, idx) => (
+                  <div key={idx} className="bg-surface-container rounded-xl p-card-padding border border-surface-variant">
+                    <h3 className="font-label-sm text-label-sm text-on-surface-variant uppercase mb-2">
+                      {panel.label}
+                    </h3>
+                    <div className="flex items-baseline gap-2">
+                      <span className={`font-data-display text-data-display text-${panel.color}`}>
+                        {panel.value}<span className="text-lg">{panel.unit}</span>
+                      </span>
+                    </div>
+                    <div className="w-full bg-surface-container-highest h-1.5 rounded-full mt-3 overflow-hidden">
+                      <div className={`bg-${panel.color} h-full rounded-full w-[${panel.progress}]`}></div>
+                    </div>
                   </div>
-                  <div className="w-full bg-surface-container-highest h-1.5 rounded-full mt-3 overflow-hidden">
-                    <div className="bg-secondary h-full rounded-full w-[85%]"></div>
-                  </div>
-                </div>
-                <div className="bg-surface-container rounded-xl p-card-padding border border-surface-variant">
-                  <h3 className="font-label-sm text-label-sm text-on-surface-variant uppercase mb-2">
-                    Ammonia Flow
-                  </h3>
-                  <div className="flex items-baseline gap-2">
-                    <span className="font-data-display text-data-display text-tertiary">
-                      14.2<span className="text-lg"> L/m</span>
-                    </span>
-                  </div>
-                  <div className="w-full bg-surface-container-highest h-1.5 rounded-full mt-3 overflow-hidden">
-                    <div className="bg-tertiary h-full rounded-full w-[60%]"></div>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
             {/* CENTER COLUMN: Charts & Process Params */}
@@ -1170,7 +1349,7 @@ export default function App() {
                       <span
                         className={`text-[11px] font-bold uppercase tracking-widest ${darkMode ? "text-on-surface-variant" : "text-slate-500"}`}
                       >
-                        Temperature
+                        {DASHBOARD_DATA.telemetry.temperature.label}
                       </span>
                       <div className="flex items-center gap-4">
                         <div className="flex items-baseline gap-1">
@@ -1272,7 +1451,7 @@ export default function App() {
                       <span
                         className={`text-[11px] font-bold uppercase tracking-widest ${darkMode ? "text-on-surface-variant" : "text-slate-500"}`}
                       >
-                        Carbon Potential
+                        {DASHBOARD_DATA.telemetry.cp.label}
                       </span>
                       <div className="flex items-center gap-4">
                         <div className="flex items-baseline gap-1">
@@ -1374,7 +1553,7 @@ export default function App() {
                       <span
                         className={`text-[11px] font-bold uppercase tracking-widest ${darkMode ? "text-on-surface-variant" : "text-slate-500"}`}
                       >
-                        Quench Oil Temperature
+                        {DASHBOARD_DATA.telemetry.oil.label}
                       </span>
                       <div className="flex items-center gap-4">
                         <div className="flex items-baseline gap-1">
@@ -1479,105 +1658,36 @@ export default function App() {
                   <div
                     className={`flex items-center justify-between rounded-xl px-2 py-4 border ${darkMode ? "bg-surface-container-highest border-surface-variant" : "bg-slate-100 border-slate-200"}`}
                   >
-                    {/* Segment 1: Oil Temperature */}
-                    <div className="flex items-center gap-2 flex-1 justify-center px-0.5">
-                      <div
-                        className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${darkMode ? "bg-blue-500/20 text-blue-400" : "bg-blue-100 text-blue-600"}`}
-                      >
-                        <span className="material-symbols-outlined text-[18px]">
-                          thermostat
-                        </span>
-                      </div>
-                      <div className="flex flex-col">
-                        <span
-                          className={`text-[9px] uppercase font-bold tracking-widest whitespace-nowrap ${darkMode ? "text-on-surface-variant" : "text-slate-500"}`}
-                        >
-                          Oil Temp
-                        </span>
-                        <span
-                          className={`text-lg font-bold leading-none mt-0.5 ${darkMode ? "text-white" : "text-slate-900"}`}
-                        >
-                          72°C
-                        </span>
-                      </div>
-                    </div>
-
-                    <div
-                      className={`w-px h-10 shrink-0 ${darkMode ? "bg-outline-variant/30" : "bg-slate-300"}`}
-                    ></div>
-
-                    {/* Segment 2: Agitation */}
-                    <div className="flex items-center gap-2 flex-1 justify-center px-0.5">
-                      <div
-                        className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${darkMode ? "bg-green-500/20 text-green-400" : "bg-green-100 text-green-600"}`}
-                      >
-                        <span className="material-symbols-outlined text-[18px]">
-                          cyclone
-                        </span>
-                      </div>
-                      <div className="flex flex-col">
-                        <span
-                          className={`text-[9px] uppercase font-bold tracking-widest whitespace-nowrap ${darkMode ? "text-on-surface-variant" : "text-slate-500"}`}
-                        >
-                          Agitation
-                        </span>
-                        <span className="text-lg font-bold leading-none mt-0.5 text-green-500">
-                          ON
-                        </span>
-                      </div>
-                    </div>
-
-                    <div
-                      className={`w-px h-10 shrink-0 ${darkMode ? "bg-outline-variant/30" : "bg-slate-300"}`}
-                    ></div>
-
-                    {/* Segment 3: Oil Level */}
-                    <div className="flex items-center gap-2 flex-1 justify-center px-0.5">
-                      <div
-                        className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${darkMode ? "bg-green-500/20 text-green-400" : "bg-green-100 text-green-600"}`}
-                      >
-                        <span className="material-symbols-outlined text-[18px]">
-                          water_drop
-                        </span>
-                      </div>
-                      <div className="flex flex-col">
-                        <span
-                          className={`text-[9px] uppercase font-bold tracking-widest whitespace-nowrap ${darkMode ? "text-on-surface-variant" : "text-slate-500"}`}
-                        >
-                          Oil Level
-                        </span>
-                        <span className="text-lg font-bold leading-none mt-0.5 text-green-500">
-                          OK
-                        </span>
-                      </div>
-                    </div>
-
-                    <div
-                      className={`w-px h-10 shrink-0 ${darkMode ? "bg-outline-variant/30" : "bg-slate-300"}`}
-                    ></div>
-
-                    {/* Segment 4: Transfer Time */}
-                    <div className="flex items-center gap-2 flex-1 justify-center px-0.5">
-                      <div
-                        className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${darkMode ? "bg-slate-500/20 text-slate-400" : "bg-slate-200 text-slate-600"}`}
-                      >
-                        <span className="material-symbols-outlined text-[18px]">
-                          timer
-                        </span>
-                      </div>
-                      <div className="flex flex-col">
-                        <span
-                          className={`text-[9px] uppercase font-bold tracking-widest whitespace-nowrap ${darkMode ? "text-on-surface-variant" : "text-slate-500"}`}
-                        >
-                          Transfer Time
-                        </span>
-                        <span
-                          className={`text-lg font-bold leading-none mt-0.5 ${darkMode ? "text-white" : "text-slate-900"}`}
-                        >
-                          8 sec
-                        </span>
-                      </div>
-                    </div>
+                    {DASHBOARD_DATA.quenchStatus.map((item, idx) => (
+                      <React.Fragment key={item.id}>
+                        <div className="flex items-center gap-2 flex-1 justify-center px-0.5">
+                          <div
+                            className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${darkMode ? `bg-${item.color}-500/20 text-${item.color}-400` : `bg-${item.color}-100 text-${item.color}-600`}`}
+                          >
+                            <span className="material-symbols-outlined text-[18px]">
+                              {item.icon}
+                            </span>
+                          </div>
+                          <div className="flex flex-col">
+                            <span
+                              className={`text-[9px] uppercase font-bold tracking-widest whitespace-nowrap ${darkMode ? "text-on-surface-variant" : "text-slate-500"}`}
+                            >
+                              {item.label}
+                            </span>
+                            <span
+                              className={`text-lg font-bold leading-none mt-0.5 ${item.isState ? "text-green-500" : darkMode ? "text-white" : "text-slate-900"}`}
+                            >
+                              {item.value}
+                            </span>
+                          </div>
+                        </div>
+                        {idx < DASHBOARD_DATA.quenchStatus.length - 1 && (
+                          <div
+                            className={`w-px h-10 shrink-0 ${darkMode ? "bg-outline-variant/30" : "bg-slate-300"}`}
+                          ></div>
+                        )}
+                      </React.Fragment>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -1602,135 +1712,68 @@ export default function App() {
                   <span
                     className={`font-status-label text-status-label px-2 py-0.5 rounded-full ${darkMode ? "bg-error/20 text-error" : "bg-red-100 text-red-600"}`}
                   >
-                    2 ACTIVE
+                    {DASHBOARD_DATA.deviations.count} ACTIVE
                   </span>
                 </div>
                 <div
                   className={`flex flex-col border rounded overflow-hidden ${darkMode ? "border-outline-variant/30 bg-surface-container-lowest" : "border-slate-200 bg-white"}`}
                 >
-                  {/* Row 1 */}
-                  <div
-                    className={`flex items-center gap-3 p-2 border-b transition-colors ${darkMode ? "border-outline-variant/30 hover:bg-surface-container-highest" : "border-slate-100 hover:bg-slate-50"}`}
-                  >
-                    {/* Left Side */}
-                    <div className="w-1 self-stretch bg-red-500 rounded-full"></div>
-                    <div className="flex-1 min-w-[120px]">
-                      <div className="flex items-center justify-between mb-0.5">
-                        <span
-                          className={`font-label-sm font-bold ${darkMode ? "text-on-surface" : "text-slate-900"}`}
+                  {DASHBOARD_DATA.deviations.active.map((dev, idx) => (
+                    <div
+                      key={dev.id}
+                      className={`flex items-center gap-3 p-2 ${idx < DASHBOARD_DATA.deviations.active.length - 1 ? "border-b" : ""} transition-colors ${darkMode ? "border-outline-variant/30 hover:bg-surface-container-highest" : "border-slate-100 hover:bg-slate-50"}`}
+                    >
+                      {/* Left Side */}
+                      <div className={`w-1 self-stretch bg-${dev.color}-500 rounded-full`}></div>
+                      <div className="flex-1 min-w-[120px]">
+                        <div className="flex items-center justify-between mb-0.5">
+                          <span
+                            className={`font-label-sm font-bold ${darkMode ? "text-on-surface" : "text-slate-900"}`}
+                          >
+                            {dev.title}
+                          </span>
+                          <span
+                            className={`text-[9px] font-bold px-1.5 py-0.5 rounded border ${darkMode ? `bg-${dev.color}-500/20 text-${dev.color}-400 border-${dev.color}-500/30` : `bg-${dev.color}-50 text-${dev.color}-600 border-${dev.color}-200`}`}
+                          >
+                            {dev.severity}
+                          </span>
+                        </div>
+                        <div
+                          className={`flex items-center gap-2 text-[11px] font-mono ${darkMode ? "text-on-surface" : "text-slate-600"}`}
                         >
-                          Temperature High – Zone 4
-                        </span>
-                        <span
-                          className={`text-[9px] font-bold px-1.5 py-0.5 rounded border ${darkMode ? "bg-red-500/20 text-red-400 border-red-500/30" : "bg-red-50 text-red-600 border-red-200"}`}
+                          <span>PV {dev.pv}</span>
+                          <span className="opacity-30">|</span>
+                          <span>SP {dev.sp}</span>
+                          <span className="opacity-30">|</span>
+                          <span
+                            className={`${darkMode ? `text-${dev.color}-400` : `text-${dev.color}-600`} font-black`}
+                          >
+                            {dev.dev}
+                          </span>
+                        </div>
+                        <div
+                          className={`text-[10px] ${darkMode ? "text-on-surface-variant" : "text-slate-500"} font-bold mt-0.5`}
                         >
-                          HIGH
-                        </span>
+                          Duration {dev.duration}
+                        </div>
                       </div>
-                      <div
-                        className={`flex items-center gap-2 text-[11px] font-mono ${darkMode ? "text-on-surface" : "text-slate-600"}`}
-                      >
-                        <span>PV 935°C</span>
-                        <span className="opacity-30">|</span>
-                        <span>SP 920°C</span>
-                        <span className="opacity-30">|</span>
-                        <span
-                          className={`${darkMode ? "text-red-400" : "text-red-600"} font-black`}
-                        >
-                          +15°C
-                        </span>
-                      </div>
-                      <div
-                        className={`text-[10px] ${darkMode ? "text-on-surface-variant" : "text-slate-500"} font-bold mt-0.5`}
-                      >
-                        Duration 00:02:45
-                      </div>
-                    </div>
-                    {/* Right Side (Sparkline) */}
-                    <div className="w-16 h-8 shrink-0">
-                      <ResponsiveContainer width="100%" height="100%">
-                        <LineChart
-                          data={[
-                            { v: 0 },
-                            { v: 5 },
-                            { v: 10 },
-                            { v: 12 },
-                            { v: 15 },
-                          ]}
-                        >
-                          <Line
-                            type="monotone"
-                            dataKey="v"
-                            stroke="#ef4444"
-                            strokeWidth={1.5}
-                            dot={false}
-                            isAnimationActive={false}
-                          />
-                        </LineChart>
-                      </ResponsiveContainer>
-                    </div>
-                  </div>
-
-                  {/* Row 2 */}
-                  <div
-                    className={`flex items-center gap-3 p-2 transition-colors ${darkMode ? "hover:bg-surface-container-highest" : "hover:bg-slate-50"}`}
-                  >
-                    {/* Left Side */}
-                    <div className="w-1 self-stretch bg-yellow-400 rounded-full"></div>
-                    <div className="flex-1 min-w-[120px]">
-                      <div className="flex items-center justify-between mb-0.5">
-                        <span
-                          className={`font-label-sm font-bold ${darkMode ? "text-on-surface" : "text-slate-900"}`}
-                        >
-                          Carbon Potential Ripple
-                        </span>
-                        <span
-                          className={`text-[9px] font-bold px-1.5 py-0.5 rounded border ${darkMode ? "bg-yellow-400/20 text-yellow-300 border-yellow-400/30" : "bg-yellow-50 text-yellow-600 border-yellow-200"}`}
-                        >
-                          MEDIUM
-                        </span>
-                      </div>
-                      <div
-                        className={`flex items-center gap-2 text-[11px] font-mono ${darkMode ? "text-on-surface-variant" : "text-slate-500"}`}
-                      >
-                        <span>PV 0.88%</span>
-                        <span className="opacity-30">|</span>
-                        <span>SP 0.85%</span>
-                        <span className="opacity-30">|</span>
-                        <span
-                          className={`${darkMode ? "text-yellow-300" : "text-yellow-600"} font-bold`}
-                        >
-                          +0.03%
-                        </span>
-                      </div>
-                      <div className="text-[10px] text-outline mt-0.5">
-                        Duration 00:00:45
+                      {/* Right Side (Sparkline) */}
+                      <div className="w-16 h-8 shrink-0">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <LineChart data={dev.trend}>
+                            <Line
+                              type="monotone"
+                              dataKey="v"
+                              stroke={dev.color === 'red' ? '#ef4444' : '#facc15'}
+                              strokeWidth={1.5}
+                              dot={false}
+                              isAnimationActive={false}
+                            />
+                          </LineChart>
+                        </ResponsiveContainer>
                       </div>
                     </div>
-                    {/* Right Side (Sparkline) */}
-                    <div className="w-16 h-8 shrink-0">
-                      <ResponsiveContainer width="100%" height="100%">
-                        <LineChart
-                          data={[
-                            { v: 0 },
-                            { v: 1 },
-                            { v: 0 },
-                            { v: 2 },
-                            { v: 3 },
-                          ]}
-                        >
-                          <Line
-                            type="monotone"
-                            dataKey="v"
-                            stroke="#facc15"
-                            strokeWidth={1.5}
-                            dot={false}
-                            isAnimationActive={false}
-                          />
-                        </LineChart>
-                      </ResponsiveContainer>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </div>
               {/* Prediction Panel */}
@@ -1751,23 +1794,22 @@ export default function App() {
                     </h2>
                   </div>
 
-                  {/* Content Area */}
+                   {/* Content Area */}
                   <div className="p-3 flex gap-2 items-center">
                     {/* Left: Message & Reason */}
                     <div className="flex-1 flex flex-col gap-2">
                       <p className="text-[15px] font-bold text-on-surface leading-tight">
                         Charge likely to become{" "}
-                        <span className="text-red-500 drop-shadow-[0_0_5px_rgba(239,68,68,0.8)]">
-                          RED
+                        <span className={`text-${DASHBOARD_DATA.prediction.status.toLowerCase()}-500 drop-shadow-[0_0_5px_rgba(239,68,68,0.8)]`}>
+                          {DASHBOARD_DATA.prediction.status}
                         </span>{" "}
                         in{" "}
-                        <span className="text-red-500 drop-shadow-[0_0_5px_rgba(239,68,68,0.8)]">
-                          06 minutes
+                        <span className={`text-${DASHBOARD_DATA.prediction.status.toLowerCase()}-500 drop-shadow-[0_0_5px_rgba(239,68,68,0.8)]`}>
+                          {DASHBOARD_DATA.prediction.time}
                         </span>
                       </p>
                       <p className="text-[11px] text-on-surface-variant leading-snug">
-                        Reason: Temperature trending high in Zone 2 and Carbon
-                        Potential low
+                        Reason: {DASHBOARD_DATA.prediction.reason}
                       </p>
                     </div>
 
@@ -1786,10 +1828,10 @@ export default function App() {
                             stroke="currentColor"
                             strokeWidth="3"
                           />
-                          {/* Progress Circle (78%) */}
+                          {/* Progress Circle */}
                           <path
                             className="text-primary"
-                            strokeDasharray="78, 100"
+                            strokeDasharray={`${DASHBOARD_DATA.prediction.confidence}, 100`}
                             d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                             fill="none"
                             stroke="currentColor"
@@ -1799,7 +1841,7 @@ export default function App() {
                         </svg>
                         <div className="absolute inset-0 flex flex-col items-center justify-center">
                           <span className="text-[12px] font-bold text-on-surface leading-none">
-                            78<span className="text-[8px]">%</span>
+                            {DASHBOARD_DATA.prediction.confidence}<span className="text-[8px]">%</span>
                           </span>
                         </div>
                       </div>
@@ -1821,48 +1863,22 @@ export default function App() {
                   </h3>
 
                   <div className="flex flex-col gap-1.5">
-                    <label className="flex items-start gap-2 cursor-pointer group">
-                      <div
-                        className={`w-4 h-4 rounded border ${darkMode ? "border-outline-variant bg-surface-container-lowest" : "border-slate-300 bg-slate-50"} group-hover:border-primary flex items-center justify-center mt-0.5 shrink-0 transition-colors`}
-                      >
-                        <span className="material-symbols-outlined text-[12px] text-transparent group-hover:text-primary">
-                          check
+                    {DASHBOARD_DATA.recommendations.map((action) => (
+                      <label key={action.id} className="flex items-start gap-2 cursor-pointer group">
+                        <div
+                          className={`w-4 h-4 rounded border ${darkMode ? "border-outline-variant bg-surface-container-lowest" : "border-slate-300 bg-slate-50"} group-hover:border-primary flex items-center justify-center mt-0.5 shrink-0 transition-colors`}
+                        >
+                          <span className="material-symbols-outlined text-[12px] text-transparent group-hover:text-primary">
+                            check
+                          </span>
+                        </div>
+                        <span
+                          className={`text-[13px] font-medium ${darkMode ? "text-on-surface" : "text-slate-800"}`}
+                        >
+                          {action.text}
                         </span>
-                      </div>
-                      <span
-                        className={`text-[13px] font-medium ${darkMode ? "text-on-surface" : "text-slate-800"}`}
-                      >
-                        Reduce furnace setpoint by 10°C
-                      </span>
-                    </label>
-                    <label className="flex items-start gap-2 cursor-pointer group">
-                      <div
-                        className={`w-4 h-4 rounded border ${darkMode ? "border-outline-variant bg-surface-container-lowest" : "border-slate-300 bg-slate-50"} group-hover:border-primary flex items-center justify-center mt-0.5 shrink-0 transition-colors`}
-                      >
-                        <span className="material-symbols-outlined text-[12px] text-transparent group-hover:text-primary">
-                          check
-                        </span>
-                      </div>
-                      <span
-                        className={`text-[13px] font-medium ${darkMode ? "text-on-surface" : "text-slate-800"}`}
-                      >
-                        Check ammonia flow control valve
-                      </span>
-                    </label>
-                    <label className="flex items-start gap-2 cursor-pointer group">
-                      <div
-                        className={`w-4 h-4 rounded border ${darkMode ? "border-outline-variant bg-surface-container-lowest" : "border-slate-300 bg-slate-50"} group-hover:border-primary flex items-center justify-center mt-0.5 shrink-0 transition-colors`}
-                      >
-                        <span className="material-symbols-outlined text-[12px] text-transparent group-hover:text-primary">
-                          check
-                        </span>
-                      </div>
-                      <span
-                        className={`text-[13px] font-medium ${darkMode ? "text-on-surface" : "text-slate-800"}`}
-                      >
-                        Verify gas carburizing flow
-                      </span>
-                    </label>
+                      </label>
+                    ))}
                   </div>
 
                   <div className="mt-1 flex justify-end">
@@ -1884,71 +1900,33 @@ export default function App() {
               <div className="flex justify-between items-start">
                 {/* Stages Flow */}
                 <div className="flex items-center flex-1 pr-4">
-                  {/* Prewash */}
-                  <div className="flex flex-col items-center text-center">
-                    <span className="material-symbols-outlined text-[14px] text-green-500 mb-0.5">
-                      check_circle
-                    </span>
-                    <span
-                      className={`font-bold text-[10px] ${darkMode ? "text-on-surface-variant" : "text-slate-600"} uppercase tracking-wider mb-0.5`}
-                    >
-                      Prewash
-                    </span>
-                    <span className="text-[9px] text-outline font-mono">
-                      00:20 / 00:20
-                    </span>
-                  </div>
-                  <div className="flex-1 mx-1.5 border-t border-outline-variant/30 relative min-w-[15px]"></div>
-
-                  {/* Furnace (ACTIVE) */}
-                  <div
-                    className={`flex flex-col items-center text-center ${darkMode ? "bg-primary/10 border-primary/30" : "bg-blue-50 border-blue-200"} border px-2 py-1 rounded relative shrink-0 transition-colors`}
-                  >
-                    <div className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></div>
-                    <span
-                      className={`material-symbols-outlined text-[14px] text-primary mb-0.5`}
-                    >
-                      local_fire_department
-                    </span>
-                    <span className="font-bold text-[10px] text-primary uppercase tracking-wider mb-0.5">
-                      Furnace
-                    </span>
-                    <span className="text-[9px] text-primary font-mono">
-                      02:57 / 03:30
-                    </span>
-                  </div>
-                  <div className="flex-1 mx-1.5 border-t border-outline-variant/20 relative min-w-[15px]"></div>
-
-                  {/* Quench */}
-                  <div className="flex flex-col items-center text-center opacity-50 shrink-0">
-                    <span className="material-symbols-outlined text-[14px] text-outline-variant mb-0.5">
-                      ac_unit
-                    </span>
-                    <span
-                      className={`font-bold text-[10px] ${darkMode ? "text-on-surface-variant" : "text-slate-600"} uppercase tracking-wider mb-0.5`}
-                    >
-                      Quench
-                    </span>
-                    <span className="text-[9px] text-outline font-mono">
-                      00:00 / 00:30
-                    </span>
-                  </div>
-                  <div className="flex-1 mx-1.5 border-t border-outline-variant/20 relative min-w-[15px]"></div>
-
-                  {/* Temper */}
-                  <div className="flex flex-col items-center text-center opacity-50 shrink-0">
-                    <span className="material-symbols-outlined text-[14px] text-outline-variant mb-0.5">
-                      waves
-                    </span>
-                    <span
-                      className={`font-bold text-[10px] ${darkMode ? "text-on-surface-variant" : "text-slate-600"} uppercase tracking-wider mb-0.5`}
-                    >
-                      Temper
-                    </span>
-                    <span className="text-[9px] text-outline font-mono">
-                      00:00 / 01:00
-                    </span>
-                  </div>
+                  {DASHBOARD_DATA.timeline.stages.map((stage, idx) => (
+                    <React.Fragment key={stage.id}>
+                      <div
+                        className={`flex flex-col items-center text-center ${stage.status === 'active' ? (darkMode ? "bg-primary/10 border-primary/30" : "bg-blue-50 border-blue-200") + " border px-2 py-1 rounded relative" : "opacity-50"} shrink-0 transition-colors`}
+                      >
+                        {stage.status === 'active' && (
+                          <div className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></div>
+                        )}
+                        <span
+                          className={`material-symbols-outlined text-[14px] ${stage.status === 'completed' ? 'text-green-500' : stage.status === 'active' ? 'text-primary' : 'text-outline-variant'} mb-0.5`}
+                        >
+                          {stage.icon}
+                        </span>
+                        <span
+                          className={`font-bold text-[10px] ${stage.status === 'active' ? 'text-primary' : (darkMode ? "text-on-surface-variant" : "text-slate-600")} uppercase tracking-wider mb-0.5`}
+                        >
+                          {stage.label}
+                        </span>
+                        <span className={`text-[9px] ${stage.status === 'active' ? 'text-primary' : 'text-outline'} font-mono`}>
+                          {stage.progress}
+                        </span>
+                      </div>
+                      {idx < DASHBOARD_DATA.timeline.stages.length - 1 && (
+                        <div className={`flex-1 mx-1.5 border-t ${stage.status === 'completed' ? 'border-outline-variant/30' : 'border-outline-variant/20'} relative min-w-[15px]`}></div>
+                      )}
+                    </React.Fragment>
+                  ))}
                 </div>
 
                 {/* Total Cycle Time */}
@@ -1961,7 +1939,7 @@ export default function App() {
                   <span
                     className={`font-data-display text-lg ${darkMode ? "text-on-surface" : "text-slate-900"} leading-none`}
                   >
-                    03:17 <span className="text-outline text-xs">/ 05:20</span>
+                    {DASHBOARD_DATA.timeline.cycleTime} <span className="text-outline text-xs">/ {DASHBOARD_DATA.timeline.targetCycleTime}</span>
                   </span>
                 </div>
               </div>
@@ -1983,41 +1961,32 @@ export default function App() {
                   <div className="absolute left-0 right-0 h-[2px] bg-surface-highest"></div>
 
                   {/* Progress Line Segments */}
-                  {/* Green (16:00 - 18:00) 0% to 40% */}
-                  <div className="absolute left-0 w-[40%] h-[2px] bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.4)]"></div>
-
-                  {/* Yellow (18:00 - 18:45) 40% to 55% */}
-                  <div className="absolute left-[40%] w-[15%] h-[2px] bg-yellow-400 shadow-[0_0_8px_rgba(250,204,21,0.4)]"></div>
-
-                  {/* Red (18:45 - 19:00) 55% to 60% */}
-                  <div className="absolute left-[55%] w-[5%] h-[2px] bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.4)]"></div>
+                  {DASHBOARD_DATA.timeline.segments.map((segment, idx) => (
+                    <div
+                      key={idx}
+                      className={`absolute left-[${segment.left}] w-[${segment.width}] h-[2px] bg-${segment.color}-500 shadow-[0_0_8px_rgba(${segment.glow},0.4)]`}
+                    ></div>
+                  ))}
 
                   {/* Markers (Aligned with time) */}
-                  {/* Green Markers at 16:30, 17:15, 17:50 */}
-                  <div className="absolute left-[10%] w-2.5 h-2.5 rounded-full bg-green-500 border border-surface-container shadow-[0_0_5px_rgba(34,197,94,0.8)] -translate-x-1/2 -translate-y-1/2 top-1/2 z-10"></div>
-                  <div className="absolute left-[25%] w-2.5 h-2.5 rounded-full bg-green-500 border border-surface-container shadow-[0_0_5px_rgba(34,197,94,0.8)] -translate-x-1/2 -translate-y-1/2 top-1/2 z-10"></div>
-                  <div className="absolute left-[37%] w-2.5 h-2.5 rounded-full bg-green-500 border border-surface-container shadow-[0_0_5px_rgba(34,197,94,0.8)] -translate-x-1/2 -translate-y-1/2 top-1/2 z-10"></div>
+                  {DASHBOARD_DATA.timeline.markers.map((marker, idx) => (
+                    <div
+                      key={idx}
+                      className={`absolute left-[${marker.left}] ${marker.large ? 'w-3 h-3 border-2' : 'w-2.5 h-2.5 border'} rounded-full bg-${marker.color}-500 border-surface-container shadow-[0_0_8px_rgba(var(--${marker.color}-glow),0.8)] -translate-x-1/2 -translate-y-1/2 top-1/2 z-10 ${marker.pulse ? 'animate-pulse' : ''}`}
+                    ></div>
+                  ))}
 
-                  {/* Yellow Marker at 18:20 */}
-                  <div className="absolute left-[46.6%] w-3 h-3 rounded-full bg-yellow-400 border-2 border-surface-container shadow-[0_0_8px_rgba(250,204,21,0.8)] -translate-x-1/2 -translate-y-1/2 top-1/2 z-10"></div>
-
-                  {/* Red Marker at 18:55 */}
-                  <div className="absolute left-[58.3%] w-3 h-3 rounded-full bg-red-500 border-2 border-surface-container shadow-[0_0_8px_rgba(239,68,68,0.8)] -translate-x-1/2 -translate-y-1/2 top-1/2 z-10 animate-pulse"></div>
-
-                  {/* Current Head (At 19:00 - Exactly 60%) */}
-                  <div className="absolute left-[60%] w-[3px] h-6 bg-primary shadow-[0_0_10px_rgba(173,198,255,1)] -translate-x-1/2 -translate-y-1/2 top-1/2 z-20 rounded-full">
+                  {/* Current Head */}
+                  <div className={`absolute left-[${DASHBOARD_DATA.timeline.headPos}] w-[3px] h-6 bg-primary shadow-[0_0_10px_rgba(173,198,255,1)] -translate-x-1/2 -translate-y-1/2 top-1/2 z-20 rounded-full`}>
                     <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-primary rounded-full ring-2 ring-background"></div>
                   </div>
                 </div>
 
                 {/* Time Scale Labels - Perfectly Aligned */}
                 <div className="flex justify-between w-full mt-4 px-5 text-[11px] text-on-surface-variant font-mono font-bold">
-                  <span className="w-10 text-center -ml-5">16:00</span>
-                  <span className="w-10 text-center">17:00</span>
-                  <span className="w-10 text-center">18:00</span>
-                  <span className="w-10 text-center">19:00</span>
-                  <span className="w-10 text-center">20:00</span>
-                  <span className="w-10 text-center -mr-5">21:00</span>
+                  {DASHBOARD_DATA.timeline.scale.map((time, idx) => (
+                    <span key={idx} className={`w-10 text-center ${idx === 0 ? '-ml-5' : idx === DASHBOARD_DATA.timeline.scale.length - 1 ? '-mr-5' : ''}`}>{time}</span>
+                  ))}
                 </div>
               </div>
 
@@ -2025,151 +1994,57 @@ export default function App() {
               <div
                 className={`flex items-center gap-6 mt-2 border-t pt-4 ${darkMode ? "border-surface-highest" : "border-slate-100"}`}
               >
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]"></div>
-                  <span
-                    className={`text-[11px] font-bold uppercase tracking-wider ${darkMode ? "text-on-surface" : "text-slate-700"}`}
-                  >
-                    Within Limit
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-yellow-400 shadow-[0_0_8px_rgba(250,204,21,0.6)]"></div>
-                  <span
-                    className={`text-[11px] font-bold uppercase tracking-wider ${darkMode ? "text-on-surface" : "text-slate-700"}`}
-                  >
-                    Warning
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.6)] animate-pulse"></div>
-                  <span
-                    className={`text-[11px] font-bold uppercase tracking-wider ${darkMode ? "text-on-surface" : "text-slate-700"}`}
-                  >
-                    Violation
-                  </span>
-                </div>
+                {DASHBOARD_DATA.timeline.legend.map((item, idx) => (
+                  <div key={idx} className="flex items-center gap-2">
+                    <div className={`w-3 h-3 rounded-full bg-${item.color}-500 shadow-[0_0_8px_rgba(var(--${item.color}-glow),0.6)] ${item.pulse ? 'animate-pulse' : ''}`}></div>
+                    <span
+                      className={`text-[11px] font-bold uppercase tracking-wider ${darkMode ? "text-on-surface" : "text-slate-700"}`}
+                    >
+                      {item.label}
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
             {/* KPI Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter mt-10">
-              {/* KPI 1 */}
-              <div
-                className={`${darkMode ? "bg-surface-container border-surface-variant" : "bg-white border-slate-200 shadow-sm"} rounded-xl p-card-padding border flex items-center gap-4 transition-all`}
-              >
+              {DASHBOARD_DATA.kpis.map((kpi) => (
                 <div
-                  className={`w-10 h-10 rounded-full ${darkMode ? "bg-primary/10 border-primary/30" : "bg-blue-50 border-blue-200"} flex items-center justify-center`}
+                  key={kpi.id}
+                  className={`${darkMode ? "bg-surface-container border-surface-variant" : "bg-white border-slate-200 shadow-sm"} rounded-xl p-card-padding border flex items-center gap-4 transition-all`}
                 >
-                  <span className="material-symbols-outlined text-primary text-xl">
-                    speed
-                  </span>
-                </div>
-                <div
-                  key={`util-${currentTime.getSeconds()}`}
-                  className="flex flex-col animate-value-flash"
-                >
-                  <span
-                    className={`font-label-sm text-[10px] ${darkMode ? "text-on-surface-variant" : "text-slate-500"} uppercase font-bold tracking-wider`}
+                  <div
+                    className={`w-10 h-10 rounded-full ${darkMode ? `bg-${kpi.color}/10 border-${kpi.color}/30` : `bg-${kpi.color === 'primary' ? 'blue' : kpi.color === 'secondary' ? 'cyan' : kpi.color === 'tertiary' ? 'indigo' : 'red'}-50 border-${kpi.color === 'primary' ? 'blue' : kpi.color === 'secondary' ? 'cyan' : kpi.color === 'tertiary' ? 'indigo' : 'red'}-200`} flex items-center justify-center`}
                   >
-                    Utilization
-                  </span>
-                  <span
-                    className={`font-data-display text-2xl ${darkMode ? "text-on-surface" : "text-slate-900"} leading-none mt-0.5`}
-                  >
-                    {(
-                      94 +
-                      Math.sin(currentTime.getSeconds() / 5) * 0.8
-                    ).toFixed(1)}
-                    <span className="text-sm opacity-50">%</span>
-                  </span>
-                </div>
-              </div>
-              {/* KPI 2 */}
-              <div
-                className={`${darkMode ? "bg-surface-container border-surface-variant" : "bg-white border-slate-200 shadow-sm"} rounded-xl p-card-padding border flex items-center gap-4 transition-all`}
-              >
-                <div
-                  className={`w-10 h-10 rounded-full ${darkMode ? "bg-secondary/10 border-secondary/30" : "bg-cyan-50 border-cyan-200"} flex items-center justify-center`}
-                >
-                  <span className="material-symbols-outlined text-secondary text-xl">
-                    verified
-                  </span>
-                </div>
-                <div className="flex flex-col">
-                  <span
-                    className={`font-label-sm text-[10px] ${darkMode ? "text-on-surface-variant" : "text-slate-500"} uppercase font-bold tracking-wider`}
-                  >
-                    Quality Score
-                  </span>
-                  <span
-                    className={`font-data-display text-2xl ${darkMode ? "text-on-surface" : "text-slate-900"} leading-none mt-0.5`}
-                  >
-                    99.8<span className="text-sm opacity-50">%</span>
-                  </span>
-                </div>
-              </div>
-              {/* KPI 3 */}
-              <div
-                className={`${darkMode ? "bg-surface-container border-surface-variant" : "bg-white border-slate-200 shadow-sm"} rounded-xl p-card-padding border flex items-center gap-4 transition-all`}
-              >
-                <div
-                  className={`w-10 h-10 rounded-full ${darkMode ? "bg-tertiary/10 border-tertiary/30" : "bg-indigo-50 border-indigo-200"} flex items-center justify-center`}
-                >
-                  <span className="material-symbols-outlined text-tertiary text-xl">
-                    bolt
-                  </span>
-                </div>
-                <div
-                  key={`energy-${currentTime.getSeconds()}`}
-                  className="flex flex-col w-full animate-value-flash"
-                >
-                  <span
-                    className={`font-label-sm text-[10px] ${darkMode ? "text-on-surface-variant" : "text-slate-500"} uppercase font-bold tracking-wider flex justify-between`}
-                  >
-                    Energy{" "}
-                    <span className="text-tertiary font-black">
-                      +
-                      {(
-                        2 +
-                        Math.sin(currentTime.getSeconds() / 2) * 0.5
-                      ).toFixed(1)}
-                      %
+                    <span className={`material-symbols-outlined text-${kpi.color} text-xl`}>
+                      {kpi.icon}
                     </span>
-                  </span>
-                  <span
-                    className={`font-data-display text-2xl ${darkMode ? "text-on-surface" : "text-slate-900"} leading-none mt-0.5`}
+                  </div>
+                  <div
+                    key={kpi.dynamic ? `${kpi.id}-${currentTime.getSeconds()}` : kpi.id}
+                    className={`flex flex-col ${kpi.dynamic ? 'animate-value-flash' : ''} ${kpi.showTrend ? 'w-full' : ''}`}
                   >
-                    {(452 + Math.cos(currentTime.getSeconds() / 3) * 5).toFixed(
-                      0,
-                    )}
-                    <span className="text-sm opacity-50"> kW</span>
-                  </span>
+                    <span
+                      className={`font-label-sm text-[10px] ${darkMode ? "text-on-surface-variant" : "text-slate-500"} uppercase font-bold tracking-wider ${kpi.showTrend ? 'flex justify-between' : ''}`}
+                    >
+                      {kpi.label}
+                      {kpi.showTrend && (
+                        <span className={`text-${kpi.color} font-black`}>
+                          +{(2 + Math.sin(currentTime.getSeconds() / 2) * 0.5).toFixed(1)}%
+                        </span>
+                      )}
+                    </span>
+                    <span
+                      className={`font-data-display text-2xl ${darkMode ? "text-on-surface" : "text-slate-900"} leading-none mt-0.5`}
+                    >
+                      {kpi.id === 'util' ? (94 + Math.sin(currentTime.getSeconds() / 5) * 0.8).toFixed(1) : 
+                       kpi.id === 'energy' ? (452 + Math.cos(currentTime.getSeconds() / 3) * 5).toFixed(0) : 
+                       kpi.value}
+                      <span className="text-sm opacity-50">{kpi.unit}</span>
+                    </span>
+                  </div>
                 </div>
-              </div>
-              {/* KPI 4 */}
-              <div
-                className={`${darkMode ? "bg-surface-container border-surface-variant" : "bg-white border-slate-200 shadow-sm"} rounded-xl p-card-padding border flex items-center gap-4 transition-all`}
-              >
-                <div
-                  className={`w-10 h-10 rounded-full ${darkMode ? "bg-error/10 border-error/30" : "bg-red-50 border-red-200"} flex items-center justify-center`}
-                >
-                  <span className="material-symbols-outlined text-error text-xl">
-                    gpp_bad
-                  </span>
-                </div>
-                <div className="flex flex-col">
-                  <span
-                    className={`font-label-sm text-[10px] ${darkMode ? "text-on-surface-variant" : "text-slate-500"} uppercase font-bold tracking-wider`}
-                  >
-                    Alarms
-                  </span>
-                  <span
-                    className={`font-data-display text-2xl ${darkMode ? "text-on-surface" : "text-slate-900"} leading-none mt-0.5`}
-                  >
-                    0<span className="text-sm opacity-50"> Shift</span>
-                  </span>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
