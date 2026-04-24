@@ -10,6 +10,99 @@
       content="Web site created using create-react-app"
     />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-container": "var(--tertiary-container)",
+                        "surface-tint": "var(--surface-tint)",
+                        "on-primary-fixed-variant": "var(--on-primary-fixed-variant)",
+                        "on-secondary-fixed": "var(--on-secondary-fixed)",
+                        "on-secondary-container": "var(--on-secondary-container)",
+                        "on-primary-container": "var(--on-primary-container)",
+                        "primary-fixed": "var(--primary-fixed)",
+                        "on-surface": "var(--on-surface)",
+                        "on-secondary": "var(--on-secondary)",
+                        "tertiary-fixed-dim": "var(--tertiary-fixed-dim)",
+                        "on-secondary-fixed-variant": "var(--on-secondary-fixed-variant)",
+                        "on-error-container": "var(--on-error-container)",
+                        "secondary": "var(--secondary)",
+                        "on-surface-variant": "var(--on-surface-variant)",
+                        "surface-container-low": "var(--surface-container-low)",
+                        "tertiary": "var(--tertiary)",
+                        "secondary-fixed-dim": "var(--secondary-fixed-dim)",
+                        "primary-container": "var(--primary-container)",
+                        "error-container": "var(--error-container)",
+                        "primary": "var(--primary)",
+                        "surface-container-highest": "var(--surface-container-highest)",
+                        "error": "var(--error)",
+                        "surface-container": "var(--surface-container)",
+                        "secondary-container": "var(--secondary-container)",
+                        "outline": "var(--outline)",
+                        "on-tertiary-fixed": "var(--on-tertiary-fixed)",
+                        "on-tertiary": "var(--on-tertiary)",
+                        "tertiary-fixed": "var(--tertiary-fixed)",
+                        "on-primary-fixed": "var(--on-primary-fixed)",
+                        "surface-variant": "var(--surface-variant)",
+                        "on-tertiary-fixed-variant": "var(--on-tertiary-fixed-variant)",
+                        "secondary-fixed": "var(--secondary-fixed)",
+                        "surface-bright": "var(--surface-bright)",
+                        "surface": "var(--surface)",
+                        "on-tertiary-container": "var(--on-tertiary-container)",
+                        "inverse-on-surface": "var(--inverse-on-surface)",
+                        "background": "var(--background)",
+                        "surface-container-lowest": "var(--surface-container-lowest)",
+                        "inverse-surface": "var(--inverse-surface)",
+                        "surface-dim": "var(--surface-dim)",
+                        "on-error": "var(--on-error)",
+                        "inverse-primary": "var(--inverse-primary)",
+                        "primary-fixed-dim": "var(--primary-fixed-dim)",
+                        "surface-container-high": "var(--surface-container-high)",
+                        "on-primary": "var(--on-primary)",
+                        "on-surface": "var(--on-surface)",
+                        "on-surface-variant": "var(--on-surface-variant)",
+                        "outline-variant": "var(--outline-variant)",
+                        "on-background": "var(--on-background)"
+                    },
+                     "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.375rem",
+                        "full": "0.5rem"
+                    },
+                    "spacing": {
+                        "tight": "4px",
+                        "card-padding": "10px",
+                        "unit": "2px",
+                        "margin": "12px",
+                        "gutter": "10px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Segoe UI"],
+                        "headline-lg": ["Segoe UI"],
+                        "status-label": ["Segoe UI"],
+                        "label-sm": ["Segoe UI"],
+                        "data-display": ["Segoe UI"],
+                        "body-md": ["Segoe UI"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["15px", {"lineHeight": "20px", "fontWeight": "600"}],
+                        "headline-lg": ["20px", {"lineHeight": "28px", "fontWeight": "700"}],
+                        "status-label": ["10px", {"lineHeight": "12px", "fontWeight": "700"}],
+                        "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                        "data-display": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "body-md": ["13px", {"lineHeight": "18px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
