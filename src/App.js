@@ -263,10 +263,6 @@ export default function App() {
     tooltipBorder: darkMode ? "#414755" : "#cbd5e1",
     tooltipText: darkMode ? "#dae2fc" : "#0f172a",
   };
-  const latest = data[data.length - 1];
-  const cpDev = latest?.cpPV - latest?.cpSP;
-  const isWarning =
-    Math.abs(cpDev || 0) > DASHBOARD_DATA.telemetry.cp.threshold;
   useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add("dark");
