@@ -456,10 +456,11 @@ export default function App() {
         >
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-emerald-500 rounded-full animate-heartbeat shadow-[0_0_8px_rgba(16,185,129,0.8)]"></div>
+              <img src="/favicon.png" alt="Furnace Twin Logo" className="h-5 w-5 object-contain" />
               <span className="text-lg font-bold tracking-tighter text-blue-500">
                 FURNACE TWIN
               </span>
+              <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-heartbeat shadow-[0_0_6px_rgba(16,185,129,0.8)] ml-0.5"></div>
             </div>
           </div>
           <div className="flex items-center gap-6">
