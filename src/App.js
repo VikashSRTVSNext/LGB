@@ -2147,11 +2147,17 @@ export default function App() {
         </div>
       </main>
 
-      {/* Footer */}
       <footer
         className={`${darkMode ? "bg-slate-950 text-emerald-500 border-slate-800" : "bg-slate-900 text-emerald-400 border-slate-700"} font-['Space_Grotesk'] text-[9px] uppercase font-bold docked full-width bottom-0 border-t flat no shadows fixed right-0 w-[calc(100%-13rem)] h-6 flex justify-between items-center px-4 z-50 transition-all`}
       >
-        <div>SYSTEM STATUS: NOMINAL | V2.4.1</div>
+        <div className="flex items-center gap-3">
+          <div>SYSTEM STATUS: NOMINAL | V2.4.1</div>
+          <span className="text-slate-700">|</span>
+          <div className="flex items-center gap-1.5 text-slate-500 normal-case font-medium">
+            <span className="text-[9px] uppercase font-bold text-slate-500">Powered by</span>
+            <img src="/Tvsnext-header-logo-V2.webp" alt="TVS Next" className="h-3.5 object-contain opacity-80 hover:opacity-100 transition-opacity" />
+          </div>
+        </div>
         <div className="flex items-center gap-4">
           <a
             className="text-slate-500 hover:text-emerald-300 cursor-pointer"
