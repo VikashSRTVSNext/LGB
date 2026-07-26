@@ -248,6 +248,29 @@ export default function App() {
   const [darkMode, setDarkMode] = useState(true);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().then(() => {
+        setIsFullscreen(true);
+      }).catch((err) => {
+        console.error(`Error attempting to enable fullscreen: ${err.message}`);
+      });
+    } else {
+      document.exitFullscreen();
+      setIsFullscreen(false);
+    }
+  };
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    return () =>
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+  }, []);
   const [data, setData] = useState(() => {
     const initialData = [];
     for (let i = 0; i < 40; i++) {
@@ -466,6 +489,23 @@ export default function App() {
                 className={`text-[10px] font-bold uppercase tracking-widest ${darkMode ? "text-on-surface" : "text-slate-700"}`}
               >
                 {darkMode ? "Light Mode" : "Dark Mode"}
+              </span>
+            </button>
+
+            {/* Expand View / Fullscreen Toggle */}
+            <button
+              onClick={toggleFullscreen}
+              className={`flex items-center gap-2 px-3 py-1 rounded border transition-all active:scale-95 group ${darkMode ? "bg-slate-900 border-slate-700 hover:border-blue-500/50" : "bg-slate-50 border-slate-200 hover:border-blue-400"}`}
+            >
+              <span
+                className={`material-symbols-outlined text-[16px] ${darkMode ? "text-blue-400" : "text-blue-600"}`}
+              >
+                {isFullscreen ? "fullscreen_exit" : "fullscreen"}
+              </span>
+              <span
+                className={`text-[10px] font-bold uppercase tracking-widest ${darkMode ? "text-on-surface" : "text-slate-700"}`}
+              >
+                {isFullscreen ? "Collapse View" : "Expand View"}
               </span>
             </button>
 
