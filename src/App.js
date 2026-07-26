@@ -458,7 +458,7 @@ export default function App() {
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-emerald-500 rounded-full animate-heartbeat shadow-[0_0_8px_rgba(16,185,129,0.8)]"></div>
               <span className="text-lg font-bold tracking-tighter text-blue-500">
-                FURNACE CTRL-X
+                FURNACE TWIN
               </span>
             </div>
           </div>
